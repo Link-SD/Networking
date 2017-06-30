@@ -3,12 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class ConnectionManager : MonoBehaviour {
+public class UIManager : NetworkBehaviour {
 
-	// Use this for initialization
-    private void Start () {
-		
-	}
-	
 
 }

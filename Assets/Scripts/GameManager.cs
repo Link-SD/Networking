@@ -12,6 +12,7 @@ public class GameManager : NetworkBehaviour {
 
     private static readonly Dictionary<string, Player> Players = new Dictionary<string, Player>();
 
+    public bool IsGameReady { get; private set; }
 
     void Awake() {
         if (Instance != null) {
@@ -21,10 +22,10 @@ public class GameManager : NetworkBehaviour {
         }
     }
 
-
     #region Player tracking
 
     public static void RegisterPlayer(string _netID, Player _player) {
+
         string playerId = PLAYER_ID_PREFIX + _netID;
 
         if (Players.ContainsKey(playerId)) {
@@ -49,13 +50,12 @@ public class GameManager : NetworkBehaviour {
     }
 
     public static bool AllPlayersJoined() {
-     //   print("Should be: " + NetworkManager.singleton.numPlayers + " " + GetAllPlayers().Length);
-        return NetworkManager.singleton.numPlayers == GetAllPlayers().Length && GetAllPlayers().All(p => p.IsReady);
-    }
-
-    public void Update() {
+        // return NetworkManager.singleton.numPlayers == GetAllPlayers().Length;
+        return NetworkManager.singleton.numPlayers == GetAllPlayers().Length && GetAllPlayers().All(p => !string.IsNullOrEmpty(p.PlayerName));
 
     }
+
+
     #endregion
 
 }

@@ -15,6 +15,8 @@ public class Register : MonoBehaviour {
     public InputField PasswordField;
     public InputField RePasswordField;
     public Text ErrorText;
+    public Button RegisterButton;
+
     private string _errorText = "";
 
     private string[] _formData;
@@ -36,6 +38,8 @@ public class Register : MonoBehaviour {
         if (_errorText != "") {
             return;
         }
+        ToggleLoader(true);
+
 
         _formData = new[] {
             UsernameField.text,
@@ -51,31 +55,37 @@ public class Register : MonoBehaviour {
         StartCoroutine(WaitForResult());
     }
 
+    private void ToggleLoader(bool show) {
+        RegisterButton.transform.GetChild(0).gameObject.SetActive(!show);
+        RegisterButton.transform.GetChild(1).gameObject.SetActive(show);
+    }
+
     IEnumerator WaitForResult() {
         yield return StartCoroutine(AccountManager.Instance.TryRegister(_formData, ShowAlert));
 
     }
 
     private void ShowAlert(string msg, MsgType msgType) {
-
         switch (msgType) {
             case MsgType.Error:
                 ErrorText.color = Color.red;
+                ToggleLoader(false);
                 break;
             case MsgType.Success:
                 ErrorText.color = Color.green;
                 break;
             case MsgType.Warning:
                 ErrorText.color = Color.yellow;
+                ToggleLoader(false);
                 break;
             case MsgType.Generic:
                 ErrorText.color = Color.blue;
+                ToggleLoader(false);
                 break;
             default:
                 ErrorText.color = Color.blue;
                 break;
         }
-
         ErrorText.text = msg;
     }
 }

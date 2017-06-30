@@ -1,61 +1,64 @@
-Initialize engine version: 5.5.4f1 (8ffd0efd98b1)
+Initialize engine version: 5.6.1f1 (2860b30f0b54)
 GfxDevice: creating device client; threaded=1
 Direct3D:
-    Version:  Direct3D 11.0 [level 11.1]
-    Renderer: NVIDIA GeForce GTX 965M (ID=0x13d9)
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 770 (ID=0x1184)
     Vendor:   NVIDIA
-    VRAM:     2019 MB
-    Driver:   22.21.13.8205
+    VRAM:     2017 MB
+    Driver:   21.21.13.7849
 Begin MonoManager ReloadAssembly
-Platform assembly: E:\Users\s_dae\Documents\Unity Projects\Kernmodule Programming\PlayerManagement\Built\Test_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading E:\Users\s_dae\Documents\Unity Projects\Kernmodule Programming\PlayerManagement\Built\Test_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: E:\Users\s_dae\Documents\Unity Projects\Kernmodule Programming\PlayerManagement\Built\Test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading E:\Users\s_dae\Documents\Unity Projects\Kernmodule Programming\PlayerManagement\Built\Test_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: E:\Users\s_dae\Documents\Unity Projects\Kernmodule Programming\PlayerManagement\Built\Test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading E:\Users\s_dae\Documents\Unity Projects\Kernmodule Programming\PlayerManagement\Built\Test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: E:\Users\s_dae\Documents\Unity Projects\Kernmodule Programming\PlayerManagement\Built\Test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading E:\Users\s_dae\Documents\Unity Projects\Kernmodule Programming\PlayerManagement\Built\Test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: E:\Users\s_dae\Documents\Unity Projects\Kernmodule Programming\PlayerManagement\Built\Test_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
-Loading E:\Users\s_dae\Documents\Unity Projects\Kernmodule Programming\PlayerManagement\Built\Test_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
-- Completed reload, in  0.108 seconds
-Platform assembly: E:\Users\s_dae\Documents\Unity Projects\Kernmodule Programming\PlayerManagement\Built\Test_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: E:\Users\s_dae\Documents\Unity Projects\Kernmodule Programming\PlayerManagement\Built\Test_Data\Managed\System.dll (this message is harmless)
-desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.089 seconds
+Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 144Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.620875 ms
-Setting up 2 worker threads for Enlighten.
-  Thread -> id: 2320 -> priority: 1 
-  Thread -> id: 4a0 -> priority: 1 
+UnloadTime: 0.932224 ms
+Setting up 4 worker threads for Enlighten.
+  Thread -> id: 3248 -> priority: 1 
+  Thread -> id: 20ec -> priority: 1 
+  Thread -> id: 1380 -> priority: 1 
+  Thread -> id: 2d24 -> priority: 1 
 DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
  
-(Filename:  Line: 448)
+(Filename:  Line: 462)
 
 DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
  
-(Filename:  Line: 448)
+(Filename:  Line: 462)
 
-Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.157035 ms
-Player 3 has joined!
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.079202 ms
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 933.
+Total: 0.768946 ms (FindLiveObjects: 0.038709 ms CreateObjectMapping: 0.028813 ms MarkObjects: 0.692110 ms  DeleteObjects: 0.009022 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.552116 ms
+
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 1084.
+Total: 0.797469 ms (FindLiveObjects: 0.037545 ms CreateObjectMapping: 0.023283 ms MarkObjects: 0.727617 ms  DeleteObjects: 0.009022 ms)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
  
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+(Filename:  Line: 462)
 
-
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 951.
-Total: 1.760619 ms (FindLiveObjects: 0.167377 ms CreateObjectMapping: 0.037501 ms MarkObjects: 1.541529 ms  DeleteObjects: 0.014211 ms)
-
-Player 6 has joined!
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
  
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+(Filename:  Line: 462)
 
-Player 6
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.315204 ms
 
-Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:58370}
-ServerDisconnected due to error: Timeout
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 943.
+Total: 0.614982 ms (FindLiveObjects: 0.022701 ms CreateObjectMapping: 0.020082 ms MarkObjects: 0.565213 ms  DeleteObjects: 0.006694 ms)
 

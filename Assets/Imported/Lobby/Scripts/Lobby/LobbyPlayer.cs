@@ -105,6 +105,7 @@ namespace Prototype.NetworkLobby
                 nameInput.text = AccountManager.User.UserName;
                 nameInput.readOnly = true;
                 CmdNameChanged(nameInput.text);
+                colorButton.interactable = true;
             }
             else {
                 nameInput.interactable = true;

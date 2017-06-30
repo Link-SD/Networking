@@ -20,14 +20,18 @@ public class Login : MonoBehaviour {
 
         }
         ErrorText.text = _errorText;
-
-
-
+        
         if (_errorText != "") {
             return;
         }
-
+        ToggleLoader(true);
         StartCoroutine(WaitForResult());
+    }
+
+    private void ToggleLoader(bool show)
+    {
+            LoginButton.transform.GetChild(0).gameObject.SetActive(!show);
+            LoginButton.transform.GetChild(1).gameObject.SetActive(show);
     }
 
     IEnumerator WaitForResult() {
@@ -38,15 +42,18 @@ public class Login : MonoBehaviour {
         switch (msgType) {
             case MsgType.Error:
                 ErrorText.color = Color.red;
+                ToggleLoader(false);
                 break;
             case MsgType.Success:
                 ErrorText.color = Color.green;
                 break;
             case MsgType.Warning:
                 ErrorText.color = Color.yellow;
+                ToggleLoader(false);
                 break;
             case MsgType.Generic:
                 ErrorText.color = Color.blue;
+                ToggleLoader(false);
                 break;
             default:
                 ErrorText.color = Color.blue;

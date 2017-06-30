@@ -22,14 +22,12 @@ public class AccountManager : MonoBehaviour {
     public string LoggedOutSceneName = "Login";
     public static bool IsLoggedIn { get; protected set; }
 
-    private const string _registerURL = "http://localhost/kernmodule/php/register_handler.php";
-    private const string _loginUrl = "http://localhost/kernmodule/php/login_handler.php";
-    private const string _updateURL = "http://localhost/kernmodule/php/update_user_handler.php";
+    private const string _registerURL = "http://dev.sandordaemen.nl/kernmodule/php/register_handler.php";
+    private const string _loginUrl = "http://dev.sandordaemen.nl/kernmodule/php/login_handler.php";
+    private const string _updateURL = "http://dev.sandordaemen.nl/kernmodule/php/update_user_handler.php";
 
     //  public static Dictionary<string, string> TempUserData { get; protected set; }
     public static UserData User;
-  
-
     public static AccountManager Instance;
 
     void Awake() {
@@ -64,14 +62,28 @@ public class AccountManager : MonoBehaviour {
             if (errorData == "") {
                 FillUserData(userData);
                 IsLoggedIn = true;
-                alert(null);
-                SD.Menu.MenuManager.GoToScene(LoggedInSceneName);
+                alert("Successfully logged in!", MsgType.Success);
+                StartCoroutine(DoAction(LoggedInSceneName));
             } else {
                 alert(errorData, MsgType.Error);
             }
         } else {
-            alert(w.error, MsgType.Error);
+            if (w.error == "Couldn't resolve host name")
+            {
+                alert("There appears to be no internet connection. Please connect to the internet.", MsgType.Warning);
+            }
+            else
+            {
+                alert(w.error, MsgType.Error);
+            }
+            
         }
+    }
+
+    private IEnumerator DoAction(string scene)
+    {
+        yield return new WaitForSeconds(2);
+        SD.Menu.MenuManager.GoToScene(scene);
     }
 
     public void LogOut() {
