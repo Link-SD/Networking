@@ -24,13 +24,13 @@ public class PlayerSetup : NetworkBehaviour {
         if (ui == null)
             Debug.LogError("No PlayerUI component on PlayerUI prefab.");
         ui.SetPlayer(GetComponent<Player>());
-        GetComponent<Player>().SetupPlayer();
 
 
         var username = "Loading...";
         username = AccountManager.IsLoggedIn ? AccountManager.User.UserName : transform.name;
 
         CmdSetUsername(transform.name, username);
+        GetComponent<Player>().SetupPlayer();
     }
 
     [Command]

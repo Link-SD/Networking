@@ -15,19 +15,19 @@ Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Ma
 Loading D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.089 seconds
+- Completed reload, in  0.068 seconds
 Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 144Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 0.932224 ms
+UnloadTime: 0.910980 ms
 Setting up 4 worker threads for Enlighten.
-  Thread -> id: 3248 -> priority: 1 
-  Thread -> id: 20ec -> priority: 1 
-  Thread -> id: 1380 -> priority: 1 
-  Thread -> id: 2d24 -> priority: 1 
+  Thread -> id: 3824 -> priority: 1 
+  Thread -> id: 3830 -> priority: 1 
+  Thread -> id: 2188 -> priority: 1 
+  Thread -> id: f28 -> priority: 1 
 DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
  
 (Filename:  Line: 462)
@@ -37,16 +37,16 @@ DontDestroyOnLoad only work for root GameObjects or components on root GameObjec
 (Filename:  Line: 462)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.079202 ms
+UnloadTime: 1.167976 ms
 
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 933.
-Total: 0.768946 ms (FindLiveObjects: 0.038709 ms CreateObjectMapping: 0.028813 ms MarkObjects: 0.692110 ms  DeleteObjects: 0.009022 ms)
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 954.
+Total: 0.640596 ms (FindLiveObjects: 0.027940 ms CreateObjectMapping: 0.020664 ms MarkObjects: 0.585879 ms  DeleteObjects: 0.006112 ms)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.552116 ms
+UnloadTime: 0.330921 ms
 
-Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 1084.
-Total: 0.797469 ms (FindLiveObjects: 0.037545 ms CreateObjectMapping: 0.023283 ms MarkObjects: 0.727617 ms  DeleteObjects: 0.009022 ms)
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 1085.
+Total: 0.700843 ms (FindLiveObjects: 0.031142 ms CreateObjectMapping: 0.020082 ms MarkObjects: 0.638559 ms  DeleteObjects: 0.011059 ms)
 
 DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
  
@@ -57,8 +57,16 @@ DontDestroyOnLoad only work for root GameObjects or components on root GameObjec
 (Filename:  Line: 462)
 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.315204 ms
+UnloadTime: 0.208681 ms
 
-Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 943.
-Total: 0.614982 ms (FindLiveObjects: 0.022701 ms CreateObjectMapping: 0.020082 ms MarkObjects: 0.565213 ms  DeleteObjects: 0.006694 ms)
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 964.
+Total: 0.773896 ms (FindLiveObjects: 0.038127 ms CreateObjectMapping: 0.020373 ms MarkObjects: 0.707246 ms  DeleteObjects: 0.007858 ms)
 
+Turn Started for: Player 6
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+reactor filed to acomplish request with code {1234}, bytesReceived {0}
+reactor filed to acomplish request with code {1234}, bytesReceived {0}
+reactor filed to acomplish request with code {1234}, bytesReceived {0}
+Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:58076}

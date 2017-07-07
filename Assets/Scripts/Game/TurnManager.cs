@@ -1,23 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
-public class TurnManager : NetworkBehaviour {
-
-
+public class TurnManager : MonoBehaviour {
 
     public Player CurrentPlayer { get; private set; }
-
-    private Player[] players;
-
-    private void Awake() {
-
-    }
-
-    private void Start() {
-        FetchPlayers();
-    }
 
     public void StartTurn(Player player) {
         SetPlayer(player);
@@ -25,7 +10,6 @@ public class TurnManager : NetworkBehaviour {
     }
 
     public void UpdateTurn() {
-        if (!isLocalPlayer) return;
         if (CurrentPlayer != null) {
             CurrentPlayer.Run();
         }
@@ -46,9 +30,5 @@ public class TurnManager : NetworkBehaviour {
 
         CurrentPlayer.OnPlayer += SetPlayer;
 
-    }
-
-    private void FetchPlayers() {
-        players = GameManager.GetAllPlayers();
     }
 }

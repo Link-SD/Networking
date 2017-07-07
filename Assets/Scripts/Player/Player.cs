@@ -18,13 +18,38 @@ public class Player : NetworkBehaviour, IPlayer {
     }
 
     public void SetupPlayer() {
-        if (isLocalPlayer) {
+        if (isLocalPlayer)
+        {
+            GetPlayerName = PlayerName;
         }
     }
 
     public override void OnStartLocalPlayer() {
+        //Set own player color
         if (isLocalPlayer)
             GetComponent<MeshRenderer>().material.color = PlayerColor;
+
+    }
+
+    public override void OnStartClient()
+    {
+        //Set player color for all other players
+        TransmitColor();
+        if (!isLocalPlayer)
+            GetComponentInChildren<Renderer>().material.color = PlayerColor;
+    }
+
+    [Command]
+    void Cmd_ProvideColorToServer(Color c) {
+
+        PlayerColor = c;
+    }
+
+    [ClientCallback]
+    void TransmitColor() {
+        if (isLocalPlayer) {
+            Cmd_ProvideColorToServer(PlayerColor);
+        }
     }
 
     //Turn Handling
@@ -43,7 +68,21 @@ public class Player : NetworkBehaviour, IPlayer {
     /// </summary>
     public void Run()
     {
+        if (!isLocalPlayer) return;
+
         print("Running: " + PlayerName);
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            //GameManager.Instance.EndTurn();
+            Cmd_EndTurn();
+        }
+    }
+
+    [Command]
+    private void Cmd_EndTurn()
+    {
+        GameManager.Instance.EndTurn();
     }
 
     public void OnTurnComplete()
