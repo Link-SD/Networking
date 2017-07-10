@@ -1,25 +1,31 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class Player : NetworkBehaviour, IPlayer {
 
-    [SyncVar] public string PlayerName;
-    [SyncVar] public Color PlayerColor;
+    [SyncVar]
+    public string PlayerName;
+    [SyncVar]
+    public Color PlayerColor;
+    private bool _turnEnded;
 
     public event PlayerEvent OnPlayer;
     public string GetPlayerName { get; private set; }
 
     public bool IsReady { get; set; }
 
-    private void Awake() {
+    private PlayerUI _playerUi;
 
+    private void Start() {
+        if (!isLocalPlayer) return;
     }
 
+
     public void SetupPlayer() {
-        if (isLocalPlayer)
-        {
+        if (isLocalPlayer) {
             GetPlayerName = PlayerName;
         }
     }
@@ -31,8 +37,7 @@ public class Player : NetworkBehaviour, IPlayer {
 
     }
 
-    public override void OnStartClient()
-    {
+    public override void OnStartClient() {
         //Set player color for all other players
         TransmitColor();
         if (!isLocalPlayer)
@@ -53,48 +58,81 @@ public class Player : NetworkBehaviour, IPlayer {
     }
 
     //Turn Handling
-    public void OnStartTurn()
-    {
-        print("Turn Started for: " + PlayerName);
+    [Server]
+    public void OnStartTurn() {
+        RpcStartTurn();
+        RpcChangeCurrentPlayer();
     }
 
-    public void OnTransition(Player previousPlayer)
-    {
-        print("Transitioned from: " + previousPlayer.PlayerName +" to: " + PlayerName);
-    }
-
-    /// <summary>
-    /// This is essentially the Update method
-    /// </summary>
-    public void Run()
-    {
+    [ClientRpc]
+    private void RpcStartTurn() {
         if (!isLocalPlayer) return;
 
-        print("Running: " + PlayerName);
+        //     print("OnStartTurn CLIENT " + PlayerName);
+    }
 
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            //GameManager.Instance.EndTurn();
-            Cmd_EndTurn();
+    [ClientRpc]
+    private void RpcChangeCurrentPlayer() {
+        CmdAskForCurrentPlayer();
+    }
+
+    [Command]
+    private void CmdAskForCurrentPlayer() {
+        RpcGetCurrentPlayerForClient(GameManager.Instance.GetCurrentPlayer().PlayerName);
+    }
+
+    [ClientRpc]
+    private void RpcGetCurrentPlayerForClient(string name) {
+        if (_playerUi == null) {
+            //I know, I have sinned..
+            _playerUi = GameObject.Find("PlayerUI").GetComponent<PlayerUI>();
+        }
+       _playerUi.SetCurrentPlayer(name);
+    }
+
+    [Server]
+    public void OnTransition(Player previousPlayer) {
+        RpcOnTransition(previousPlayer.gameObject);
+    }
+
+    [ClientRpc]
+    private void RpcOnTransition(GameObject prevPlayerGameObject) {
+        if (!isLocalPlayer) return;
+        Player prevPlayer = prevPlayerGameObject.GetComponent<Player>();
+        //  print("Transitioned from " + prevPlayer.PlayerName + " To " + PlayerName);
+    }
+
+    [Server]
+    public void Run() {
+        RpcRun();
+    }
+
+    [ClientRpc]
+    private void RpcRun() {
+        if (!isLocalPlayer) return;
+        if (Input.GetKeyDown(KeyCode.T)) {
+            CmdEndTurn();
         }
     }
 
     [Command]
-    private void Cmd_EndTurn()
-    {
+    private void CmdEndTurn() {
         GameManager.Instance.EndTurn();
     }
 
-    public void OnTurnComplete()
-    {
-        print("Turn Complete: " + PlayerName);
+    [Server]
+    public void OnTurnComplete() {
+        RpcOnTurnComplete();
+    }
+    [ClientRpc]
+    private void RpcOnTurnComplete() {
+        //   print("OnTurnComplete CLIENT " + PlayerName);
     }
 }
 
 public delegate void PlayerEvent(Player newPlayer);
 
-public interface IPlayer
-{
+public interface IPlayer {
     event PlayerEvent OnPlayer;
     string GetPlayerName { get; }
 

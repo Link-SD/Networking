@@ -11,6 +11,12 @@ public class PlayerUI : NetworkBehaviour {
     [SerializeField]
     private Image _playerColor;
 
+    [SerializeField]
+    private Text _currentPlayer;
+
+    [SerializeField]
+    private Image _currentPlayerColor;
+
     private Player _player;
 
     public void SetPlayer(Player _player) {
@@ -25,6 +31,10 @@ public class PlayerUI : NetworkBehaviour {
         }
         _playerNameText.text = _player.PlayerName;
         _playerColor.color = _player.PlayerColor;
+    }
+
+    public void SetCurrentPlayer(string name) {
+        _currentPlayer.text = name;
     }
 
 }

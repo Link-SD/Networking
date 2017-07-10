@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class TurnManager : MonoBehaviour {
+public class TurnManager : NetworkBehaviour {
 
     public Player CurrentPlayer { get; private set; }
 
@@ -16,6 +17,7 @@ public class TurnManager : MonoBehaviour {
     }
 
     private void SetPlayer(Player newPlayer) {
+
         Player previousPlayer = null;
         if (CurrentPlayer != null) {
             previousPlayer = CurrentPlayer;

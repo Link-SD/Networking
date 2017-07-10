@@ -28,7 +28,6 @@ public class GameManager : NetworkBehaviour {
     public override void OnStartServer()
     {
         StartCoroutine(CheckForGameReady());
-
     }
 
     //Wrapper for the Turnmanager
@@ -37,12 +36,15 @@ public class GameManager : NetworkBehaviour {
         _turnManager.StartTurn(player);
     }
 
+    public Player GetCurrentPlayer() {
+        return _turnManager.CurrentPlayer;
+    }
+
     private int i = 1;
     public void EndTurn()
     {
         Player[] players = GetAllPlayers();
         int t = i % players.Length;
-        print(t);
         if (t >= players.Length) return;
         if (_turnManager.CurrentPlayer == players[t]) return;
 

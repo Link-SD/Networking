@@ -1,72 +1,52 @@
-Initialize engine version: 5.6.1f1 (2860b30f0b54)
+Initialize engine version: 5.6.2f1 (a2913c821e27)
 GfxDevice: creating device client; threaded=1
 Direct3D:
-    Version:  Direct3D 11.0 [level 11.0]
-    Renderer: NVIDIA GeForce GTX 770 (ID=0x1184)
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 965M (ID=0x13d9)
     Vendor:   NVIDIA
-    VRAM:     2017 MB
-    Driver:   21.21.13.7849
+    VRAM:     2019 MB
+    Driver:   22.21.13.8205
 Begin MonoManager ReloadAssembly
-Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.068 seconds
-Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: D:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\System.dll (this message is harmless)
-desktop: 1920x1080 144Hz; virtual: 1920x1080 at 0,0
+Platform assembly: E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.113 seconds
+Platform assembly: E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 0.910980 ms
+UnloadTime: 1.340987 ms
 Setting up 4 worker threads for Enlighten.
-  Thread -> id: 3824 -> priority: 1 
-  Thread -> id: 3830 -> priority: 1 
-  Thread -> id: 2188 -> priority: 1 
-  Thread -> id: f28 -> priority: 1 
+  Thread -> id: 1988 -> priority: 1 
+  Thread -> id: 34a0 -> priority: 1 
+  Thread -> id: 1b84 -> priority: 1 
+  Thread -> id: 1ef0 -> priority: 1 
 DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
  
-(Filename:  Line: 462)
+(Filename:  Line: 481)
 
 DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
  
-(Filename:  Line: 462)
+(Filename:  Line: 481)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.167976 ms
+UnloadTime: 1.612579 ms
 
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 954.
-Total: 0.640596 ms (FindLiveObjects: 0.027940 ms CreateObjectMapping: 0.020664 ms MarkObjects: 0.585879 ms  DeleteObjects: 0.006112 ms)
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 950.
+Total: 0.905571 ms (FindLiveObjects: 0.070661 ms CreateObjectMapping: 0.026843 ms MarkObjects: 0.800171 ms  DeleteObjects: 0.007895 ms)
 
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.330921 ms
-
-Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 1085.
-Total: 0.700843 ms (FindLiveObjects: 0.031142 ms CreateObjectMapping: 0.020082 ms MarkObjects: 0.638559 ms  DeleteObjects: 0.011059 ms)
-
-DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
- 
-(Filename:  Line: 462)
-
-DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
- 
-(Filename:  Line: 462)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.208681 ms
-
-Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 964.
-Total: 0.773896 ms (FindLiveObjects: 0.038127 ms CreateObjectMapping: 0.020373 ms MarkObjects: 0.707246 ms  DeleteObjects: 0.007858 ms)
-
-Turn Started for: Player 6
+Trying to send command for object without authority.
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-reactor filed to acomplish request with code {1234}, bytesReceived {0}
-reactor filed to acomplish request with code {1234}, bytesReceived {0}
-reactor filed to acomplish request with code {1234}, bytesReceived {0}
-Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:58076}
+Trying to send command for object without authority.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
