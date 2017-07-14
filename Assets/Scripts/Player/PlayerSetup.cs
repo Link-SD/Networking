@@ -61,4 +61,9 @@ public class PlayerSetup : NetworkBehaviour {
     private void OnDisable() {
         GameManager.UnRegisterPlayer(transform.name);
     }
+
+    public override void OnNetworkDestroy() {
+        GameManager.UnRegisterPlayer(transform.name);
+        base.OnNetworkDestroy();
+    }
 }

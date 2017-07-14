@@ -17,12 +17,21 @@ public class PlayerUI : NetworkBehaviour {
     [SerializeField]
     private Image _currentPlayerColor;
 
+    [SerializeField]
+    private Button _diceButton;
+
+    [SerializeField]
+    private Text _diceButtonText;
+
+    public Button DiceButton { get { return _diceButton; } }
+
     private Player _player;
 
     public void SetPlayer(Player _player) {
         this._player = _player;
 
         StartCoroutine(WaitForReady());
+        _diceButton.interactable = false;
     }
 
     private IEnumerator WaitForReady() {
@@ -31,6 +40,15 @@ public class PlayerUI : NetworkBehaviour {
         }
         _playerNameText.text = _player.PlayerName;
         _playerColor.color = _player.PlayerColor;
+        _diceButton.onClick.AddListener(Roll);
+    }
+
+    private void Roll() {
+        _player.AskToRollDice();
+    }
+
+    public void SetDiceNumber(int i) {
+        _diceButtonText.text = i.ToString();
     }
 
     public void SetCurrentPlayer(string name) {

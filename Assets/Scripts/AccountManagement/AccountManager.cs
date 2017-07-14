@@ -138,7 +138,6 @@ public class AccountManager : MonoBehaviour {
 
     private IEnumerator DoRegister(WWW w, AlertHandler alert) {
         yield return w;
-        
         if (w.error == null) {
             string[] receivedData = Regex.Split(w.text, "<>");
             string msg = receivedData[1];

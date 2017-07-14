@@ -78,8 +78,11 @@ public class GameManager : NetworkBehaviour {
             StartTurn(startingPlayer);
         }
     }
-    
 
+    public static int CalculateDiceNumber() {
+        System.Random r = new System.Random();
+        return r.Next(1, 7); ;
+    }
 
     #region Player tracking
 
@@ -115,6 +118,14 @@ public class GameManager : NetworkBehaviour {
     /// <returns></returns>
     public static Player[] GetAllPlayers() {
         return Players.Values.ToArray();
+    }
+
+    /// <summary>
+    /// Returns all players in this active game as dictionary
+    /// </summary>
+    /// <returns></returns>
+    public static Dictionary<string, Player> GetAllPlayersAsDictionary() {
+        return Players;
     }
 
     public static bool AllPlayersJoined() {

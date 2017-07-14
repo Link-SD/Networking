@@ -15,19 +15,19 @@ Platform assembly: E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Ma
 Loading E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.113 seconds
+- Completed reload, in  0.093 seconds
 Platform assembly: E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: E:\Users\s_dae\Documents\GitHub\Networking\Built\Test_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.340987 ms
+UnloadTime: 2.951200 ms
 Setting up 4 worker threads for Enlighten.
-  Thread -> id: 1988 -> priority: 1 
-  Thread -> id: 34a0 -> priority: 1 
-  Thread -> id: 1b84 -> priority: 1 
-  Thread -> id: 1ef0 -> priority: 1 
+  Thread -> id: aec -> priority: 1 
+  Thread -> id: 4fe8 -> priority: 1 
+  Thread -> id: 1314 -> priority: 1 
+  Thread -> id: 4450 -> priority: 1 
 DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
  
 (Filename:  Line: 481)
@@ -36,17 +36,13 @@ DontDestroyOnLoad only work for root GameObjects or components on root GameObjec
  
 (Filename:  Line: 481)
 
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 1.612579 ms
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.861672 ms
 
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 950.
-Total: 0.905571 ms (FindLiveObjects: 0.070661 ms CreateObjectMapping: 0.026843 ms MarkObjects: 0.800171 ms  DeleteObjects: 0.007895 ms)
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1222.
+Total: 1.739297 ms (FindLiveObjects: 0.112505 ms CreateObjectMapping: 0.063950 ms MarkObjects: 1.546656 ms  DeleteObjects: 0.015000 ms)
 
-Trying to send command for object without authority.
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Trying to send command for object without authority.
+39
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
