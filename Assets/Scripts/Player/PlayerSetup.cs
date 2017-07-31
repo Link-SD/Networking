@@ -4,47 +4,38 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Player))]
 public class PlayerSetup : NetworkBehaviour {
 
-
+    [HideInInspector]
+    public PlayerUI Ui;
 
     [SerializeField]
-    private GameObject _playerUIPrefab;
+    private GameObject _playerUiPrefab;
     [HideInInspector]
-    public GameObject playerUIInstance;
-    [HideInInspector]
-    public PlayerUI ui;
+    public GameObject PlayerUiInstance;
+
 
 
     private void Start() {
 
         if (!isLocalPlayer) return;
 
-        playerUIInstance = Instantiate(_playerUIPrefab);
-        playerUIInstance.name = _playerUIPrefab.name;
-        ui = playerUIInstance.GetComponent<PlayerUI>();
-        if (ui == null)
+        PlayerUiInstance = Instantiate(_playerUiPrefab);
+        PlayerUiInstance.name = _playerUiPrefab.name;
+        Ui = PlayerUiInstance.GetComponent<PlayerUI>();
+        if (Ui == null)
             Debug.LogError("No PlayerUI component on PlayerUI prefab.");
-        ui.SetPlayer(GetComponent<Player>());
+        Ui.SetPlayer(GetComponent<Player>());
 
 
         var username = "Loading...";
         username = AccountManager.IsLoggedIn ? AccountManager.User.UserName : transform.name;
 
         CmdSetUsername(transform.name, username);
-        GetComponent<Player>().SetupPlayer();
     }
 
     [Command]
     private void CmdSetUsername(string playerId, string userName) {
 
-        Player player = GameManager.GetPlayer(playerId);
-        if (player == null) return;
-        player.PlayerName = userName;
-    }
-
-    [ClientRpc]
-    private void RpcSetUsername(string playerId, string userName) {
-        if (!isLocalPlayer) return;
-        Player player = GameManager.GetPlayer(playerId);
+        var player = GameManager.GetPlayer(playerId);
         if (player == null) return;
         player.PlayerName = userName;
     }
@@ -52,8 +43,8 @@ public class PlayerSetup : NetworkBehaviour {
     public override void OnStartClient() {
         base.OnStartClient();
 
-        string netId = GetComponent<NetworkIdentity>().netId.ToString();
-        Player player = GetComponent<Player>();
+        var netId = GetComponent<NetworkIdentity>().netId.ToString();
+        var player = GetComponent<Player>();
 
         GameManager.RegisterPlayer(netId, player);
     }

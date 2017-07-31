@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Prototype.NetworkLobby;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -12,15 +13,17 @@ public class Player : NetworkBehaviour, IPlayer {
     public Color PlayerColor;
 
     public event PlayerEvent OnPlayer;
-    public string GetPlayerName { get; private set; }
 
     public bool IsReady { get; set; }
 
     private PlayerUI _playerUi;
 
     private readonly List<Pawn> _pawns = new List<Pawn>();
-    private List<Pawn> _pawnsOnBoard = new List<Pawn>();
+    private readonly List<Pawn> _activePawns = new List<Pawn>();
+    private readonly List<Pawn> _pawnsOnBoardLocal = new List<Pawn>();
+
     private Pawn _selectedPawn = null;
+
     [SerializeField]
     private GameObject _pawnPrefab;
 
@@ -67,19 +70,13 @@ public class Player : NetworkBehaviour, IPlayer {
         CmdSpawnPawns();
     }
 
-    public void SetupPlayer() {
-        if (isLocalPlayer) {
-            GetPlayerName = PlayerName;
-        }
-    }
-
     public override void OnStartClient() {
         //Set player color for all other players
         TransmitColor();
     }
 
     [Command]
-    void CmdSpawnPawns() {
+    private void CmdSpawnPawns() {
         for (int i = 0; i < 4; i++) {
             var go = Instantiate(
                 _pawnPrefab,
@@ -107,14 +104,14 @@ public class Player : NetworkBehaviour, IPlayer {
 
 
     [Command]
-    void Cmd_ProvideColorToServer(Color c) {
+    private void CmdProvideColorToServer(Color c) {
         PlayerColor = c;
     }
 
     [ClientCallback]
-    void TransmitColor() {
+    private void TransmitColor() {
         if (isLocalPlayer) {
-            Cmd_ProvideColorToServer(PlayerColor);
+            CmdProvideColorToServer(PlayerColor);
         }
     }
 
@@ -130,10 +127,10 @@ public class Player : NetworkBehaviour, IPlayer {
     private void RpcStartTurn() {
         if (!isLocalPlayer) return;
         if (_playerUi == null) {
-            //I know, I have sinned..
+            //I know, I have sinned.. ..but it is only done once (everytime a turn starts).
             _playerUi = GameObject.Find("PlayerUI").GetComponent<PlayerUI>();
         }
-        _playerUi.DiceButton.interactable = _pawnsOnBoard.Count == 0;
+        _playerUi.DiceButton.interactable = true;
     }
 
     [ClientRpc]
@@ -165,7 +162,6 @@ public class Player : NetworkBehaviour, IPlayer {
     private void RpcOnTransition(GameObject prevPlayerGameObject) {
         if (!isLocalPlayer) return;
         Player prevPlayer = prevPlayerGameObject.GetComponent<Player>();
-        //  print("Transitioned from " + prevPlayer.PlayerName + " To " + PlayerName);
     }
 
     [Server]
@@ -179,8 +175,7 @@ public class Player : NetworkBehaviour, IPlayer {
         if (Input.GetKeyDown(KeyCode.T)) {
             CmdEndTurn();
         }
-
-        foreach (Pawn pawn in _pawnsOnBoard) {
+        foreach (Pawn pawn in _pawnsOnBoardLocal) {
             if (pawn == null) return;
             if (!pawn.hasAuthority) return;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -191,8 +186,8 @@ public class Player : NetworkBehaviour, IPlayer {
                     pawn.ChangeColor(Pawn.ColorType.Highlighted);
                     if (Input.GetMouseButtonDown(0)) {
 
-                        if (_pawnsOnBoard.Any(p => p.Selected)) {
-                            foreach (Pawn p in _pawnsOnBoard.Where(p => p.Selected)) {
+                        if (_pawnsOnBoardLocal.Any(p => p.Selected)) {
+                            foreach (Pawn p in _pawnsOnBoardLocal.Where(p => p.Selected)) {
                                 p.Selected = false;
                                 p.ChangeColor(Pawn.ColorType.None);
                             }
@@ -203,6 +198,7 @@ public class Player : NetworkBehaviour, IPlayer {
                             pawn.Selected = true;
                             _selectedPawn = pawn;
                             _playerUi.DiceButton.interactable = true;
+                            CmdProvideSelectedPawnToServer(pawn.gameObject);
                         }
                     }
                 }
@@ -211,6 +207,10 @@ public class Player : NetworkBehaviour, IPlayer {
 
     }
 
+    [Command]
+    private void CmdProvideSelectedPawnToServer(GameObject pawn) {
+        _selectedPawn = pawn.GetComponent<Pawn>();
+    }
 
     [Command]
     private void CmdEndTurn() {
@@ -221,6 +221,7 @@ public class Player : NetworkBehaviour, IPlayer {
     public void OnTurnComplete() {
         RpcOnTurnComplete();
     }
+
     [ClientRpc]
     private void RpcOnTurnComplete() {
         if (!isLocalPlayer) return;
@@ -239,21 +240,34 @@ public class Player : NetworkBehaviour, IPlayer {
         if (!isServer)
             return;
 
-
         if (!GameManager.Instance.GetCurrentPlayer() == this) return;
         int i = GameManager.CalculateDiceNumber();
 
-        if (_pawnsOnBoard.Count == 0) {
+        if (_activePawns.Count == 0) {
             //No pawns on board yet.
             if (i == 6) {
                 //Player can put pawn on board
                 Place startPosition = Board.Instance.StartPlaces[_myColor];
 
-                
-                _selectedPawn = _pawns[Random.Range(0, _pawns.Count)];
-                _pawnsOnBoard.Add(_selectedPawn);
-                RpcAddActivePawnsToList(_pawnsOnBoard[0].gameObject, true);
+                _selectedPawn = _pawns.First(p => p.IsActive);
+                _activePawns.Add(_selectedPawn);
+                RpcAddActivePawnsToList(_selectedPawn.gameObject, true);
                 MovePawnToPosition(startPosition.ID, true);
+            }
+        } else if (i == 6) {
+            //Can put another pawn on board
+
+            if (_activePawns.Count < 4) {
+                Place startPosition = Board.Instance.StartPlaces[_myColor];
+                _selectedPawn = _pawns.FirstOrDefault(p => !_activePawns.Contains(p) && p.IsActive);
+                if (_selectedPawn == null) return;
+
+                _activePawns.Add(_selectedPawn);
+
+                RpcAddActivePawnsToList(_selectedPawn.gameObject, true);
+                MovePawnToPosition(startPosition.ID, true);
+            } else {
+                MovePawnToPosition(i, false);
             }
         } else {
             MovePawnToPosition(i, false);
@@ -261,6 +275,7 @@ public class Player : NetworkBehaviour, IPlayer {
 
         RpcUpdateDiceNumber(i);
         StartCoroutine(EndTurn());
+
     }
 
     [Server]
@@ -268,39 +283,69 @@ public class Player : NetworkBehaviour, IPlayer {
 
         if (placeOnBoard) {
             _selectedPawn.BoardPosition = position;
-        }
-        else {
+        } else {
+
             _selectedPawn.BoardPosition += position;
+            _selectedPawn.BoardPosition = _selectedPawn.BoardPosition % Board.Instance.GetBoardPlaces.Count;
+
+            if (_selectedPawn.BoardPosition == Board.Instance.EndPoints[_myColor].ID) {
+                //On Finish 
+                _activePawns.Remove(_selectedPawn);
+
+                RpcAddActivePawnsToList(_selectedPawn.gameObject, false);
+                Place endPosition = Board.Instance.FinishedPlaces.First(p => p.IsEnd && !p.IsTaken && p.PlayerColorFinish == _myColor);
+
+                _selectedPawn.BoardPosition = -1;
+                _selectedPawn.IsActive = false;
+                _selectedPawn.UpdatePosition(endPosition.transform.position);
+                endPosition.IsTaken = true;
+                _selectedPawn = null;
+
+                if (_pawns.TrueForAll(p => !p.IsActive)) {
+                    RpcShowGameOverScreen(PlayerName);
+                }
+            }
         }
 
-
-        _selectedPawn.UpdatePosition(position);
-        //  RpcMoveToPosition(position);
+        if (_selectedPawn != null) {
+            _selectedPawn.UpdatePosition();
+        }
     }
 
     [ClientRpc]
-    private void RpcMoveToPosition(int position) {
-        if (isLocalPlayer)
-            _selectedPawn.BoardPosition = position;
+    private void RpcShowGameOverScreen(string test) {
+        _playerUi.ShowGameOverScreen(test + " WINS!");
+
+        if (isLocalPlayer) {
+            AccountManager.Instance.AddHighScore(1);
+        } else {
+            AccountManager.Instance.AddHighScore(0);
+        }
+        StartCoroutine(GoToLobby());
     }
+
+    private IEnumerator GoToLobby() {
+        yield return new WaitForSeconds(2);
+        LobbyManager.s_Singleton.GoBackButton();
+    }
+
     [ClientRpc]
     private void RpcUpdateDiceNumber(int position) {
         if (!isLocalPlayer) return;
         _playerUi.SetDiceNumber(position);
         _playerUi.DiceButton.interactable = false;
-
     }
 
     [ClientRpc]
     private void RpcAddActivePawnsToList(GameObject p, bool add) {
         if (add) {
-            _pawnsOnBoard.Add(p.GetComponent<Pawn>());
+            _pawnsOnBoardLocal.Add(p.GetComponent<Pawn>());
         } else {
-            _pawnsOnBoard.Remove(p.GetComponent<Pawn>());
+            _pawnsOnBoardLocal.Remove(p.GetComponent<Pawn>());
         }
     }
     private IEnumerator EndTurn() {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(.1f);
         CmdEndTurn();
     }
 }
@@ -309,7 +354,6 @@ public delegate void PlayerEvent(Player newPlayer);
 
 public interface IPlayer {
     event PlayerEvent OnPlayer;
-    string GetPlayerName { get; }
 
     /// <summary>
     /// Callback called when the turn has started.

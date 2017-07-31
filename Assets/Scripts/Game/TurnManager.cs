@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine.Networking;
 
 public class TurnManager : NetworkBehaviour {
 
@@ -31,6 +30,5 @@ public class TurnManager : NetworkBehaviour {
             CurrentPlayer.OnTransition(previousPlayer);
 
         CurrentPlayer.OnPlayer += SetPlayer;
-
     }
 }

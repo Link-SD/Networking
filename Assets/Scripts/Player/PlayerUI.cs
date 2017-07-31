@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class PlayerUI : NetworkBehaviour {
+public class PlayerUI : MonoBehaviour {
 
     [SerializeField]
     private Text _playerNameText;
@@ -23,9 +23,23 @@ public class PlayerUI : NetworkBehaviour {
     [SerializeField]
     private Text _diceButtonText;
 
+    [SerializeField]
+    private GameObject _gameOverScreen;
+
+    [SerializeField]
+    private GameObject _uiScreen;
+
+    [SerializeField]
+    private Text _gameOverText;
+
     public Button DiceButton { get { return _diceButton; } }
 
     private Player _player;
+
+    private void Start() {
+        _gameOverScreen.SetActive(false);
+        _uiScreen.SetActive(true);
+    }
 
     public void SetPlayer(Player _player) {
         this._player = _player;
@@ -55,4 +69,9 @@ public class PlayerUI : NetworkBehaviour {
         _currentPlayer.text = name;
     }
 
+    public void ShowGameOverScreen(string msg) {
+        _gameOverScreen.SetActive(true);
+        _gameOverText.text = msg;
+        _uiScreen.SetActive(false);
+    }
 }

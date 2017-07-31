@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+// I'm actually a bit proud of this class. Well.. The fact that I created a nice callback system which works makes me a bit proud.
 
 public enum MsgType {
     Error,
@@ -16,21 +15,20 @@ public class AccountManager : MonoBehaviour {
 
     public delegate void AlertHandler(string msg, MsgType msgType = MsgType.Generic);
     
-
     [Header("Properties")]
     public string LoggedInSceneName = "Menu";
     public string LoggedOutSceneName = "Login";
     public static bool IsLoggedIn { get; protected set; }
 
-    private const string _registerURL = "http://dev.sandordaemen.nl/kernmodule/php/register_handler.php";
-    private const string _loginUrl = "http://dev.sandordaemen.nl/kernmodule/php/login_handler.php";
-    private const string _updateURL = "http://dev.sandordaemen.nl/kernmodule/php/update_user_handler.php";
+    private const string REGISTER_URL = "http://dev.sandordaemen.nl/kernmodule/php/register_handler.php";
+    private const string LOGIN_URL = "http://dev.sandordaemen.nl/kernmodule/php/login_handler.php";
+    private const string UPDATE_URL = "http://dev.sandordaemen.nl/kernmodule/php/update_user_handler.php";
+    private const string HIGHSCORE_URL = "http://dev.sandordaemen.nl/kernmodule/php/highscore_handler.php";
 
-    //  public static Dictionary<string, string> TempUserData { get; protected set; }
     public static UserData User;
     public static AccountManager Instance;
 
-    void Awake() {
+    private void Awake() {
         if (Instance != null) {
             Destroy(gameObject);
             return;
@@ -48,7 +46,7 @@ public class AccountManager : MonoBehaviour {
         form.AddField("username-login", userName);
         form.AddField("pass-login", password);
         form.AddField("hidden-field", "hidden");
-        WWW w = new WWW(_loginUrl, form);
+        WWW w = new WWW(LOGIN_URL, form);
 
         yield return StartCoroutine(DoLogin(w, alert));
     }
@@ -76,7 +74,6 @@ public class AccountManager : MonoBehaviour {
             {
                 alert(w.error, MsgType.Error);
             }
-            
         }
     }
 
@@ -95,26 +92,10 @@ public class AccountManager : MonoBehaviour {
     }
     #endregion
 
-    private void FillUserData(string[] userData) {
-        
-        
-        /*TempUserData = new Dictionary<string, string> {
-            {"id", userData[0]},
-            {"Username", userData[1]},
-            {"Firstname", userData[2]},
-            {"Lastname", userData[3]},
-            {"Gender", userData[4]},
-            {"Email", userData[5]},
-            {"Birthdate", userData[6]},
-            {"Registrationdate", userData[7]},
-            {"SessionId", userData[8]}
-        };*/
-
-
+    private static void FillUserData(IList<string> userData) {
+        //Necessary evil.
         User = new UserData(userData[0], userData[1], userData[2], userData[3], userData[5], userData[4], userData[6], userData[7], userData[8]);
     }
-
-
 
     #region Register User
 
@@ -131,7 +112,7 @@ public class AccountManager : MonoBehaviour {
         form.AddField("register-re-pass", formData[7]);
         form.AddField("hidden-field", "hidden");
 
-        WWW w = new WWW(_registerURL, form);
+        WWW w = new WWW(REGISTER_URL, form);
 
         yield return StartCoroutine(DoRegister(w, alert));
     }
@@ -156,7 +137,6 @@ public class AccountManager : MonoBehaviour {
         }
     }
     #endregion
-
    
     #region Update User Details
     public IEnumerator TryUpdate(string[] formData, AlertHandler alert) {
@@ -178,7 +158,7 @@ public class AccountManager : MonoBehaviour {
 
         form.AddField("hidden-field", "hidden");
 
-        WWW w = new WWW(_updateURL, form);
+        WWW w = new WWW(UPDATE_URL, form);
 
         yield return StartCoroutine(DoUpdate(w, alert));
     }
@@ -190,11 +170,11 @@ public class AccountManager : MonoBehaviour {
             string[] receivedData = Regex.Split(w.text, "<>");
             string msg = receivedData[1];
             string errorData = receivedData[2];
-            print(msg);
             if (string.IsNullOrEmpty(errorData)) {
-                alert(msg);
+                alert("Successfully updated personal details. You may need to re-login to see the changes.");
                 if (msg.Contains("SUCCESS")) {
-                   // SceneManager.LoadScene(LoggedInSceneName);
+                    yield return new WaitForSeconds(3);
+                    SceneManager.LoadScene(LoggedInSceneName);
                 }
             } else {
                 alert(errorData, MsgType.Error);
@@ -206,6 +186,34 @@ public class AccountManager : MonoBehaviour {
 
     #endregion
 
+    #region AddScoreToDatabase
+
+    public void AddHighScore(int score) {
+        StartCoroutine(TryAddHighScore(((msg, type) => print(msg)), score));
+    }
+
+    public IEnumerator TryAddHighScore(AlertHandler alert, int score) {
+        WWWForm form = new WWWForm();
+
+        form.AddField("user_id", AccountManager.User.ID);
+        form.AddField("game_id", 5);
+        form.AddField("session_id", AccountManager.User.SessionID);
+        form.AddField("hidden-field", "add");
+        form.AddField("score", score);
+
+        WWW www = new WWW(HIGHSCORE_URL, form);
+
+        yield return StartCoroutine(DoAddHighScore(www, alert));
+    }
+
+    private IEnumerator DoAddHighScore(WWW www, AlertHandler alert) {
+        yield return www;
+        if (www.error == null) {
+           // alert(www.text);
+        }
+    }
+
+    #endregion
 
     public struct UserData {
 

@@ -8,15 +8,15 @@ public class GameManager : NetworkBehaviour {
 
     public static GameManager Instance;
 
+    public bool IsGameReady { get; private set; }
+
     private const string PLAYER_ID_PREFIX = "Player ";
 
     private static readonly Dictionary<string, Player> Players = new Dictionary<string, Player>();
 
-    public bool IsGameReady { get; private set; }
-
     private TurnManager _turnManager;
 
-    void Awake() {
+    private void Awake() {
         if (Instance != null) {
             Debug.LogError("More than one GameManager in scene.");
         } else {
@@ -40,16 +40,16 @@ public class GameManager : NetworkBehaviour {
         return _turnManager.CurrentPlayer;
     }
 
-    private int i = 1;
+    private int _i = 1;
     public void EndTurn()
     {
         Player[] players = GetAllPlayers();
-        int t = i % players.Length;
+        int t = _i % players.Length;
         if (t >= players.Length) return;
         if (_turnManager.CurrentPlayer == players[t]) return;
 
         _turnManager.StartTurn(players[t]);
-        i++;
+        _i++;
     }
 
     public void Update()
@@ -81,26 +81,26 @@ public class GameManager : NetworkBehaviour {
 
     public static int CalculateDiceNumber() {
         System.Random r = new System.Random();
-        return r.Next(1, 7); ;
+        return r.Next(2, 7); ;
     }
 
     #region Player tracking
 
-    public static void RegisterPlayer(string _netID, Player _player) {
+    public static void RegisterPlayer(string netId, Player player) {
 
-        string playerId = PLAYER_ID_PREFIX + _netID;
+        var playerId = PLAYER_ID_PREFIX + netId;
 
         if (Players.ContainsKey(playerId)) {
             Debug.LogError("There already is a player with this name. Overwriting..");
             UnRegisterPlayer(playerId);
         }
 
-        Players.Add(playerId, _player);
-        _player.transform.name = playerId;
+        Players.Add(playerId, player);
+        player.transform.name = playerId;
     }
 
-    public static void UnRegisterPlayer(string _playerID) {
-        Players.Remove(_playerID);
+    public static void UnRegisterPlayer(string playerId) {
+        Players.Remove(playerId);
     }
 
     /// <summary>
@@ -129,11 +129,8 @@ public class GameManager : NetworkBehaviour {
     }
 
     public static bool AllPlayersJoined() {
-       //  return NetworkManager.singleton.numPlayers == GetAllPlayers().Length;
         return NetworkManager.singleton.numPlayers == GetAllPlayers().Length && GetAllPlayers().All(p => !string.IsNullOrEmpty(p.PlayerName));
-
     }
-
 
     #endregion
 

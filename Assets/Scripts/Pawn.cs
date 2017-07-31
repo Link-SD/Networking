@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
 public class Pawn : NetworkBehaviour {
@@ -14,29 +12,30 @@ public class Pawn : NetworkBehaviour {
         None
     }
 
-    private Renderer _renderer;
-
     [SyncVar]
     public Color PlayerColor;
 
-    private Color _highLightedColor;
-    private Color _selectedColor;
-
     public bool Selected { get; set; }
+    public bool IsActive { get; set; }
 
-    [SyncVar]
+    [SyncVar(hook = "OnBoardPositionChange")]
     public int BoardPosition;
 
     public Player Owner { get; set; }
 
+    private Renderer _renderer;
+    private Color _highLightedColor;
+    private Color _selectedColor;
+
     private void Awake() {
         _renderer = GetComponent<Renderer>();
+        IsActive = true;
     }
 
     private void Start() {
         _renderer.material.color = PlayerColor;
-        _highLightedColor = new Color(PlayerColor.r - .2f, PlayerColor.g - .2f, PlayerColor.b - .2f, PlayerColor.a);
-        _selectedColor = new Color(PlayerColor.r - .3f, PlayerColor.g - .3f, PlayerColor.b - .3f, PlayerColor.a);
+        _highLightedColor = new Color(PlayerColor.r - .4f, PlayerColor.g - .4f, PlayerColor.b - .4f, PlayerColor.a);
+        _selectedColor = new Color(PlayerColor.r - .7f, PlayerColor.g - .7f, PlayerColor.b - .7f, PlayerColor.a);
     }
 
     public void ChangeColor(Color color) {
@@ -58,6 +57,20 @@ public class Pawn : NetworkBehaviour {
         }
     }
 
+    /// <summary>
+    /// Called on BoardPosition Change
+    /// </summary>
+    /// <param name="i"></param>
+    [Server]
+    private void OnBoardPositionChange(int i) {
+        RpcUpdateBoardPositionClient(i);
+    }
+
+    [ClientRpc]
+    private void RpcUpdateBoardPositionClient(int i) {
+        BoardPosition = i;
+    }
+
     //Just to make things not overcomplicated
     public void OnMouseExit() {
         if (!hasAuthority) return;
@@ -66,23 +79,35 @@ public class Pawn : NetworkBehaviour {
             _renderer.material.color = PlayerColor;
     }
 
-
-    public void UpdatePosition(int i) {
-        /*Place place = Board.Instance.GetBoardPlaces.FirstOrDefault(p => p.ID == BoardPosition);
-        if (place != null)
-            transform.position = place.transform.position;
-        */
-        RpcUpdatePositionForClient(i);
+    public void UpdatePosition() {
+        RpcUpdatePositionForClient();
     }
+
+    public void UpdatePosition(Vector3 pos) {
+        RpcPositionPawn(pos);
+    }
+
     [ClientRpc]
-    public void RpcUpdatePositionForClient(int i) {
-        print(BoardPosition);
-        Place place = Board.Instance.GetBoardPlaces.FirstOrDefault(p => p.ID == i);
-        if (place == null) return;
-        
-        while (transform.position != place.transform.position) {
-            transform.position = Vector3.Lerp(transform.position, place.transform.position, 2 * Time.deltaTime);
+    private void RpcPositionPawn(Vector3 pos) {
+        transform.position = pos;
+    }
+
+    [ClientRpc]
+    private void RpcUpdatePositionForClient() {
+        StartCoroutine(Move());
+    }
+
+    private IEnumerator Move() {
+        float timeToStart = Time.time;
+        List<Place> places = Board.Instance.GetBoardPlaces;
+        Place finalPosition = places.First(p => p.ID == BoardPosition);
+
+        while (Vector3.Distance(transform.position, finalPosition.transform.position) > 0.05f) {
+
+            transform.position = Vector3.Lerp(transform.position, finalPosition.transform.position,
+                (Time.time - timeToStart) * 2.5f);
+            yield return null;
         }
     }
-
 }
+    

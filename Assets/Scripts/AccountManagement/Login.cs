@@ -12,7 +12,6 @@ public class Login : MonoBehaviour {
     public Text ErrorText;
     private string _errorText = "";
 
-
     public void TryLogin() {
         _errorText = "";
         if (UserNameText.text == "" || PassWordText.text == "") {

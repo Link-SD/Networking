@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+/// <summary>
+/// This is an old script. Please don't look at it for too long :)
+/// </summary>
 namespace SD.Menu
 {
     public class MenuManager : MonoBehaviour
