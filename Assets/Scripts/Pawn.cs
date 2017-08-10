@@ -97,17 +97,40 @@ public class Pawn : NetworkBehaviour {
         StartCoroutine(Move());
     }
 
+    private Place previousPosition = null;
     private IEnumerator Move() {
         float timeToStart = Time.time;
         List<Place> places = Board.Instance.GetBoardPlaces;
         Place finalPosition = places.First(p => p.ID == BoardPosition);
+        /*
+        if (previousPosition != null) {
+            IList<Place> placesToGo = places.Where(p => p.ID > previousPosition.ID &&p.ID < finalPosition.ID + 1).ToList();
+            int currentIndex = 0;
+            while (Vector3.Distance(transform.position, placesToGo[currentIndex].transform.position) > 0.05f) {
 
+                transform.position = Vector3.Lerp(transform.position, placesToGo[currentIndex].transform.position,
+                    (Time.time - timeToStart) * 1f);
+
+                if ((Vector3.Distance(transform.position, placesToGo[currentIndex].transform.position) <= 0.06f)) {
+                    if (currentIndex < placesToGo.Count - 1) {
+                        currentIndex++;
+                        currentIndex = currentIndex % placesToGo.Count;
+                        Debug.Log(currentIndex);
+                    }
+                }
+                yield return null;
+            }
+
+
+        } */
         while (Vector3.Distance(transform.position, finalPosition.transform.position) > 0.05f) {
 
             transform.position = Vector3.Lerp(transform.position, finalPosition.transform.position,
                 (Time.time - timeToStart) * 2.5f);
             yield return null;
         }
+        // }
+        //previousPosition = finalPosition;
     }
 }
-    
+
