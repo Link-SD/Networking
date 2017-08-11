@@ -241,11 +241,11 @@ public class Player : NetworkBehaviour, IPlayer {
             return;
 
         if (!GameManager.Instance.GetCurrentPlayer() == this) return;
-        int i = ;// GameManager.CalculateDiceNumber();
+        int i = GameManager.CalculateDiceNumber(); //41 or 42 to go fully around the board;
 
         if (_activePawns.Count == 0) {
             //No pawns on board yet.
-           //if (i == 6) {
+            if (i == 6) {
                 //Player can put pawn on board
                 Place startPosition = Board.Instance.StartPlaces[_myColor];
 
@@ -253,7 +253,7 @@ public class Player : NetworkBehaviour, IPlayer {
                 _activePawns.Add(_selectedPawn);
                 RpcAddActivePawnsToList(_selectedPawn.gameObject, true);
                 MovePawnToPosition(startPosition.ID, true);
-          //  }
+            }
         } else if (i == 6) {
             //Can put another pawn on board
 
